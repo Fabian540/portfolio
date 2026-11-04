@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lit Creatives – Photography</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,800&family=DM+Sans:wght@400;500&display=swap">
+<style>
+:root{--bg:#15130f;--panel:#1f1c17;--line:#34302a;--ink:#efe9dd;--mute:#a39b8b;--accent:#7b9cff;
+--display:"Bricolage Grotesque","Arial Black",sans-serif;--body:"DM Sans",system-ui,sans-serif;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--body)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+header.nav{position:sticky;top:0;z-index:5;background:rgba(21,19,15,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;justify-content:space-between;align-items:center;height:60px}
+.logo{font:800 20px var(--display);text-decoration:none}
+.nav nav a{margin-left:22px;text-decoration:none;color:var(--mute);font-size:15px}
+.nav nav a:hover{color:var(--ink)}
+.hero{padding:72px 0 40px}
+.hero h1{font:800 clamp(52px,12vw,150px)/.9 var(--display);letter-spacing:-.03em;margin:0 0 28px}
+.hero p{max-width:60ch;color:var(--ink);opacity:.82;font-size:19px;margin:0 0 28px}
+.btn{display:inline-block;background:var(--ink);color:var(--bg);padding:12px 22px;border-radius:999px;font-weight:500;text-decoration:none;border:0;cursor:pointer;font:500 16px var(--body)}
+.btn.ghost{background:none;color:var(--ink);border:1px solid var(--line);margin-left:8px}
+.strip{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:48px}
+.strip img{width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:3px;display:block}
+.strip img:nth-child(even){margin-top:24px}
+section{padding:64px 0}
+h2{font:800 clamp(30px,5vw,48px)/1.05 var(--display);letter-spacing:-.02em;margin:0 0 20px}
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:28px}
+.chip{background:none;color:var(--mute);border:1px solid var(--line);border-radius:999px;padding:7px 16px;cursor:pointer;font:500 15px var(--body)}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.add{margin-left:auto;display:flex;gap:8px;align-items:center;color:var(--mute);font-size:14px}
+select{background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px;font:400 14px var(--body)}
+.grid{columns:3 280px;column-gap:14px}
+.ph{break-inside:avoid;margin:0 0 14px;position:relative;border-radius:4px;overflow:hidden;background:var(--panel);border:1px solid var(--line);cursor:pointer;display:block;width:100%;padding:0;text-align:left;color:inherit}
+.ph img{display:block;width:100%;height:auto}
+.ph.empty{cursor:default;display:grid;place-items:center;color:var(--mute);font-size:14px}
+.ph figcaption,.ph .cap{position:absolute;left:0;right:0;bottom:0;padding:28px 14px 12px;background:linear-gradient(transparent,rgba(0,0,0,.75));font-size:14px;opacity:0;transition:opacity .2s}
+.ph:hover .cap,.ph:focus-visible .cap{opacity:1}
+.note{color:var(--mute);font-size:15px;border-left:3px solid var(--accent);padding-left:14px;max-width:62ch}
+.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0;border-top:1px solid var(--line)}
+.services div{padding:24px 24px 24px 0;border-bottom:1px solid var(--line)}
+.services h3{font:800 22px var(--display);margin:0 0 6px}
+.services p{margin:0;color:var(--mute);font-size:16px}
+.contact{background:var(--panel);border-top:1px solid var(--line)}
+.contact a.big{font:800 clamp(24px,5vw,44px) var(--display);text-decoration:none;border-bottom:2px solid var(--accent)}
+footer{padding:28px 0;color:var(--mute);font-size:14px;border-top:1px solid var(--line)}
+dialog{border:0;padding:0;background:transparent;max-width:100vw;max-height:100vh;color:var(--ink)}
+dialog::backdrop{background:rgba(10,9,7,.94)}
+.lb{display:grid;place-items:center;width:100vw;height:100vh;padding:56px 16px}
+.lb img{max-width:100%;max-height:100%;object-fit:contain}
+.lb button{position:absolute;background:rgba(0,0,0,.5);color:var(--ink);border:1px solid var(--line);border-radius:999px;width:44px;height:44px;font-size:20px;cursor:pointer}
+.lb .x{top:16px;right:16px}.lb .p{left:12px;top:50%}.lb .n{right:12px;top:50%}
+.lb .t{position:absolute;bottom:18px;left:0;right:0;text-align:center;color:var(--mute);font-size:15px}
+@media(max-width:640px){.strip{grid-template-columns:repeat(3,1fr)}.strip img:nth-child(n+4){display:none}.add{margin-left:0}.nav nav a:not(:last-child){display:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap"><a class="logo" href="#top">Lit Creatives</a>
+<nav><a href="#work">Work</a><a href="#services">Services</a><a href="#contact">Book a shoot</a></nav></div></header>
+
+<main id="top">
+<div class="wrap hero">
+  <h1>Photography by Fabian.</h1>
+  <p>I shoot the moments most people miss: the laugh before the speech, the quiet look from the back of the hall, the second a stranger relaxes in front of the lens. I'm based in Nairobi, and I cover events, portraits and brand stories. I also run content for organisations, so I think about how a photo will look once it's posted, not just how it looks on the day. Tell me what you're planning and I'll tell you honestly how I'd shoot it.</p>
+  <a class="btn" href="#work">See the work</a><a class="btn ghost" href="#contact">Book a shoot</a>
+  <div class="strip" id="strip" aria-hidden="true"></div>
+</div>
+
+<section id="work"><div class="wrap">
+  <h2>Selected work</h2>
+  <div class="tools" id="filters" role="group" aria-label="Filter by category"></div>
+  <div class="grid" id="grid"></div>
+</div></section>
+
+<section id="services"><div class="wrap">
+  <h2>What I shoot</h2>
+  <div class="services">
+    <div><h3>Corporate events</h3><p>Forums, panels, launches and exhibitions, covered so the day can be shared and remembered.</p></div>
+    <div><h3>Dinners and gatherings</h3><p>Celebrations and get-togethers, shot in the room's real light and mood.</p></div>
+    <div><h3>Team building</h3><p>Outdoor games and group activities, with the energy and the laughs kept in frame.</p></div>
+    <div><h3>Weddings</h3><p>The ceremony, the signing, the bridal party and the quiet moments in between.</p></div>
+    <div><h3>Graduations</h3><p>The cap, the sash and the family photo afterwards, caught while the day is still happening.</p></div>
+    <div><h3>Family and portraits</h3><p>Relaxed sessions for individuals, couples and families, indoors or outdoors.</p></div>
+  </div>
+</div></section>
+
+<section id="contact" class="contact"><div class="wrap">
+  <h2>Book a shoot</h2>
+  <p style="color:var(--mute);max-width:50ch">Send me the date, the place and what the photos are for. I'll reply with how I'd approach it.</p>
+  <p><a class="big" href="tel:+254751363437">0751 363 437</a></p>
+  <p><a class="big" href="mailto:fabinyams@gmail.com">fabinyams@gmail.com</a></p>
+  <p><a class="btn" href="https://wa.me/254751363437">Message on WhatsApp</a></p>
+</div></section>
+</main>
+<footer><div class="wrap">© 2026 Lit Creatives. Nairobi, Kenya.</div></footer>
+
+<dialog id="lb" aria-label="Photo viewer"><div class="lb">
+  <button class="x" aria-label="Close">✕</button><button class="p" aria-label="Previous">‹</button><button class="n" aria-label="Next">›</button>
+  <img alt=""><div class="t"></div></div></dialog>
+
+<script>
+const CATS=["Corporate events","Dinners & gatherings","Family & portraits","Graduations","Weddings","Team building"];
+const PHOTOS=[
+ {
+  "src": "photos/corporate-events-01.jpg",
+  "cat": "Corporate events",
+  "title": "Corporate forum"
+ },
+ {
+  "src": "photos/corporate-events-02.jpg",
+  "cat": "Corporate events",
+  "title": "Corporate forum"
+ },
+ {
+  "src": "photos/corporate-events-03.jpg",
+  "cat": "Corporate events",
+  "title": "Corporate forum"
+ },
+ {
+  "src": "photos/corporate-events-04.jpg",
+  "cat": "Corporate events",
+  "title": "Corporate forum"
+ },
+ {
+  "src": "photos/corporate-events-05.jpg",
+  "cat": "Corporate events",
+  "title": "Corporate forum"
+ },
+ {
+  "src": "photos/corporate-events-06.jpg",
+  "cat": "Corporate events",
+  "title": "Corporate forum"
+ },
+ {
+  "src": "photos/corporate-events-07.jpg",
+  "cat": "Corporate events",
+  "title": "Corporate forum"
+ },
+ {
+  "src": "photos/corporate-events-08.jpg",
+  "cat": "Corporate events",
+  "title": "Corporate forum"
+ },
+ {
+  "src": "photos/corporate-events-09.jpg",
+  "cat": "Corporate events",
+  "title": "Corporate forum"
+ },
+ {
+  "src": "photos/corporate-events-10.jpg",
+  "cat": "Corporate events",
+  "title": "Corporate forum"
+ },
+ {
+  "src": "photos/corporate-events-11.jpg",
+  "cat": "Corporate events",
+  "title": "Corporate forum"
+ },
+ {
+  "src": "photos/corporate-events-12.jpg",
+  "cat": "Corporate events",
+  "title": "Corporate forum"
+ },
+ {
+  "src": "photos/dinners-gatherings-01.jpg",
+  "cat": "Dinners & gatherings",
+  "title": "Friends' dinner"
+ },
+ {
+  "src": "photos/dinners-gatherings-02.jpg",
+  "cat": "Dinners & gatherings",
+  "title": "Friends' dinner"
+ },
+ {
+  "src": "photos/dinners-gatherings-03.jpg",
+  "cat": "Dinners & gatherings",
+  "title": "Friends' dinner"
+ },
+ {
+  "src": "photos/dinners-gatherings-04.jpg",
+  "cat": "Dinners & gatherings",
+  "title": "Friends' dinner"
+ },
+ {
+  "src": "photos/dinners-gatherings-05.jpg",
+  "cat": "Dinners & gatherings",
+  "title": "Friends' dinner"
+ },
+ {
+  "src": "photos/dinners-gatherings-06.jpg",
+  "cat": "Dinners & gatherings",
+  "title": "Friends' dinner"
+ },
+ {
+  "src": "photos/dinners-gatherings-07.jpg",
+  "cat": "Dinners & gatherings",
+  "title": "Friends' dinner"
+ },
+ {
+  "src": "photos/dinners-gatherings-08.jpg",
+  "cat": "Dinners & gatherings",
+  "title": "Friends' dinner"
+ },
+ {
+  "src": "photos/dinners-gatherings-09.jpg",
+  "cat": "Dinners & gatherings",
+  "title": "Friends' dinner"
+ },
+ {
+  "src": "photos/dinners-gatherings-10.jpg",
+  "cat": "Dinners & gatherings",
+  "title": "Friends' dinner"
+ },
+ {
+  "src": "photos/dinners-gatherings-11.jpg",
+  "cat": "Dinners & gatherings",
+  "title": "Friends' dinner"
+ },
+ {
+  "src": "photos/family-portraits-01.jpg",
+  "cat": "Family & portraits",
+  "title": "Family session"
+ },
+ {
+  "src": "photos/family-portraits-02.jpg",
+  "cat": "Family & portraits",
+  "title": "Family session"
+ },
+ {
+  "src": "photos/family-portraits-03.jpg",
+  "cat": "Family & portraits",
+  "title": "Family session"
+ },
+ {
+  "src": "photos/family-portraits-04.jpg",
+  "cat": "Family & portraits",
+  "title": "Family session"
+ },
+ {
+  "src": "photos/family-portraits-05.jpg",
+  "cat": "Family & portraits",
+  "title": "Family session"
+ },
+ {
+  "src": "photos/family-portraits-06.jpg",
+  "cat": "Family & portraits",
+  "title": "Family session"
+ },
+ {
+  "src": "photos/graduations-01.jpg",
+  "cat": "Graduations",
+  "title": "Graduation day"
+ },
+ {
+  "src": "photos/graduations-02.jpg",
+  "cat": "Graduations",
+  "title": "Graduation day"
+ },
+ {
+  "src": "photos/graduations-03.jpg",
+  "cat": "Graduations",
+  "title": "Graduation day"
+ },
+ {
+  "src": "photos/graduations-04.jpg",
+  "cat": "Graduations",
+  "title": "Graduation day"
+ },
+ {
+  "src": "photos/graduations-05.jpg",
+  "cat": "Graduations",
+  "title": "Graduation day"
+ },
+ {
+  "src": "photos/weddings-01.jpg",
+  "cat": "Weddings",
+  "title": "Wedding day"
+ },
+ {
+  "src": "photos/weddings-02.jpg",
+  "cat": "Weddings",
+  "title": "Wedding day"
+ },
+ {
+  "src": "photos/weddings-03.jpg",
+  "cat": "Weddings",
+  "title": "Wedding day"
+ },
+ {
+  "src": "photos/weddings-04.jpg",
+  "cat": "Weddings",
+  "title": "Wedding day"
+ },
+ {
+  "src": "photos/weddings-05.jpg",
+  "cat": "Weddings",
+  "title": "Wedding day"
+ },
+ {
+  "src": "photos/weddings-06.jpg",
+  "cat": "Weddings",
+  "title": "Wedding day"
+ },
+ {
+  "src": "photos/weddings-07.jpg",
+  "cat": "Weddings",
+  "title": "Wedding day"
+ },
+ {
+  "src": "photos/weddings-08.jpg",
+  "cat": "Weddings",
+  "title": "Wedding day"
+ },
+ {
+  "src": "photos/weddings-09.jpg",
+  "cat": "Weddings",
+  "title": "Wedding day"
+ },
+ {
+  "src": "photos/weddings-10.jpg",
+  "cat": "Weddings",
+  "title": "Wedding day"
+ },
+ {
+  "src": "photos/weddings-11.jpg",
+  "cat": "Weddings",
+  "title": "Wedding day"
+ },
+ {
+  "src": "photos/weddings-12.jpg",
+  "cat": "Weddings",
+  "title": "Wedding day"
+ },
+ {
+  "src": "photos/weddings-13.jpg",
+  "cat": "Weddings",
+  "title": "Wedding day"
+ },
+ {
+  "src": "photos/weddings-14.jpg",
+  "cat": "Weddings",
+  "title": "Wedding day"
+ },
+ {
+  "src": "photos/team-building-01.jpg",
+  "cat": "Team building",
+  "title": "Team building day"
+ },
+ {
+  "src": "photos/team-building-02.jpg",
+  "cat": "Team building",
+  "title": "Team building day"
+ },
+ {
+  "src": "photos/team-building-03.jpg",
+  "cat": "Team building",
+  "title": "Team building day"
+ },
+ {
+  "src": "photos/team-building-04.jpg",
+  "cat": "Team building",
+  "title": "Team building day"
+ },
+ {
+  "src": "photos/team-building-05.jpg",
+  "cat": "Team building",
+  "title": "Team building day"
+ },
+ {
+  "src": "photos/team-building-06.jpg",
+  "cat": "Team building",
+  "title": "Team building day"
+ },
+ {
+  "src": "photos/team-building-07.jpg",
+  "cat": "Team building",
+  "title": "Team building day"
+ },
+ {
+  "src": "photos/team-building-08.jpg",
+  "cat": "Team building",
+  "title": "Team building day"
+ },
+ {
+  "src": "photos/team-building-09.jpg",
+  "cat": "Team building",
+  "title": "Team building day"
+ },
+ {
+  "src": "photos/team-building-10.jpg",
+  "cat": "Team building",
+  "title": "Team building day"
+ },
+ {
+  "src": "photos/team-building-11.jpg",
+  "cat": "Team building",
+  "title": "Team building day"
+ },
+ {
+  "src": "photos/team-building-12.jpg",
+  "cat": "Team building",
+  "title": "Team building day"
+ },
+ {
+  "src": "photos/team-building-13.jpg",
+  "cat": "Team building",
+  "title": "Team building day"
+ }
+];
+const ratios=["3/4","4/3","1/1","2/3","4/5","3/2","1/1","3/4","4/3"];
+let filter="All",view=[],idx=0;
+const $=s=>document.querySelector(s);
+const grid=$("#grid"),fl=$("#filters"),lb=$("#lb");
+
+["All",...CATS].forEach(c=>{
+  const b=document.createElement("button");b.className="chip";b.textContent=c;
+  b.setAttribute("aria-pressed",c==="All");b.onclick=()=>{filter=c;[...fl.children].forEach(x=>x.setAttribute("aria-pressed",x===b));render()};
+  fl.appendChild(b)});
+
+function render(){
+  grid.textContent="";
+  view=PHOTOS.filter(p=>filter==="All"||p.cat===filter);
+  if(!PHOTOS.length){
+    ratios.forEach((r,i)=>{const d=document.createElement("div");d.className="ph empty";d.style.aspectRatio=r;
+      d.textContent="Your photo here";grid.appendChild(d)});
+    return}
+  if(!view.length){grid.innerHTML='<p class="note">No photos in this category yet.</p>';return}
+  view.forEach((p,i)=>{
+    const b=document.createElement("button");b.className="ph";b.setAttribute("aria-label","Open "+p.title);
+    b.innerHTML='<img loading="lazy" alt=""><span class="cap"></span>';
+    b.querySelector("img").src=p.src;b.querySelector("img").alt=p.title;
+    b.querySelector(".cap").textContent=p.title;
+    b.onclick=()=>open(i);grid.appendChild(b)});
+}
+function open(i){idx=i;show();if(!lb.open)lb.showModal()}
+function show(){const p=view[idx];lb.querySelector("img").src=p.src;lb.querySelector("img").alt=p.title;lb.querySelector(".t").textContent=p.title+" · "+p.cat+"  ("+(idx+1)+"/"+view.length+")"}
+function step(d){idx=(idx+d+view.length)%view.length;show()}
+lb.querySelector(".x").onclick=()=>lb.close();
+lb.querySelector(".p").onclick=()=>step(-1);
+lb.querySelector(".n").onclick=()=>step(1);
+lb.addEventListener("click",e=>{if(e.target.classList.contains("lb"))lb.close()});
+lb.addEventListener("keydown",e=>{if(e.key==="ArrowLeft")step(-1);if(e.key==="ArrowRight")step(1)});
+render();
+[2,3,13,20,23,28].forEach(i=>{const m=document.createElement("img");m.src=PHOTOS[i].src;m.alt="";$("#strip").appendChild(m)});
+</script>
+</body>
+</html>
